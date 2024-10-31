@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .                # Current directory where Dockerfile is located
+      dockerfile: Dockerfile     # Specify the Dockerfile
+    env_file:
+      - .env                     # Load environment variables from the .env file
+    ports:
+      - "${PORT}:8080"           # Map the port from the .env file to port 8080 on localhost
+    networks:
+      - cs2_network              # Use a custom network
+    restart: always              # Always restart the container unless it is explicitly stopped
+
+networks:
+  cs2_network:                   # Define a custom network for better isolation
+    driver: bridge               # Use the default bridge network driver
+
+
+
