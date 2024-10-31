@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cs2API</title>
+</head>
+<body>
+<header>
+    <h1>Welcome to cs2api!</h1>
+</header>
+<home>
+    <div class="container">
+        <div class="info">
+            <!-- NOTE! -->
+            <!-- change that localhost example links for production!-->
+            <p>To access all skins: <a href="http://localhost:8080/cs2api/skins"> /cs2api/skins </a></p>
+            <p>To access list of all collections: <a href="http://localhost:8080/cs2api/collections"> /cs2api/collections </a></p>
+            <p>To access specific collection: <a href="http://localhost:8080/cs2api/collections/kilowatt"> /cs2api/collections/kilowatt </a></p>
+            <p>To access skin by name: <a href="http://localhost:8080/cs2api/skins/USP-S%20Jawbreaker"> /cs2api/skins/USP-S%20Jawbreaker </a> %20 is a space placeholder.</p>
+            <p>To access skin by name in specific collection: <a href="http://localhost:8080/cs2api/collections/kilowatt/USP-S%20Jawbreaker"> /cs2api/collections/kilowatt/USP-S%20Jawbreaker </a> %20 is a space placeholder.</p>
+            <!-- NOTE! -->
+        </div>
+    </div>
+</home>
+<style>
+    .class{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    a{
+        text-decoration: none;
+        color: blue;
+        font-size: 18px;
+        font-weight: bold;
+    }
+</style>
+</body>
+</html>
