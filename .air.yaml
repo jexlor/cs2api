@@ -1,0 +1,24 @@
+# app_name: myapp
+
+# watch:
+#   - ./
+#   - ./cmd
+#   - ./internal
+
+# ignore:
+#   - .git
+#   - .idea
+#   - .vscode
+#   - *.md
+#   - *.yml
+#   - .air.yaml
+
+# build:
+#   bin: myapp 
+#   cmd: ./main.go 
+
+# run:
+#   cmd: ./myapp
+
+
+#usecase on go version 1.23 or later.
