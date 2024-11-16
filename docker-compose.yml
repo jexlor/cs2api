@@ -3,19 +3,60 @@ version: '3.8'
 services:
   api:
     build:
-      context: .                # Current directory where Dockerfile is located
-      dockerfile: Dockerfile     # Specify the Dockerfile
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app  # Bind mount for live code updates
+      - /app/tmp  # Temporary directory for caching or building
     env_file:
-      - .env                     # Load environment variables from the .env file
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     ports:
-      - "${PORT}:8080"           # Map the port from the .env file to port 8080 on localhost
+      - "${PORT}:8080"
     networks:
-      - cs2_network              # Use a custom network
-    restart: always              # Always restart the container unless it is explicitly stopped
+      - cs2_network
+    depends_on:
+      - db
+    restart: always
+    command: air  # Use air for hot reloading
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - cs2_network
+    ports:
+      - "5432:5432"
+    restart: always
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "5050:80"
+    networks:
+      - cs2_network
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  db_data:
 
 networks:
-  cs2_network:                   # Define a custom network for better isolation
-    driver: bridge               # Use the default bridge network driver
+  cs2_network:
+    driver: bridge
+
 
 
 
