@@ -5,6 +5,8 @@ import (
 	"log"
 	"os"
 
+	"github.com/jexlor/cs2api/db"
+
 	"github.com/jexlor/cs2api/api"
 
 	"github.com/gin-gonic/gin"
@@ -12,6 +14,7 @@ import (
 )
 
 func main() {
+	db.InitDB()
 	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatal("Couldn't load env file!")
@@ -25,6 +28,8 @@ func main() {
 	router := gin.Default()
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/cs2api", api.LandingPage)
+	router.GET("/cs2api/skins", api.GetAllSkins)
+	router.POST("/cs2api/skins", api.AddSkin)
 	fmt.Println("Running api on port:", port)
 
 	err = router.Run(":" + port)
