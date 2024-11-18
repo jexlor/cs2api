@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jexlor/cs2api/db"
 )
 
 func LandingPage(c *gin.Context) {
@@ -20,23 +19,4 @@ func GetAllSkins(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, skins)
-}
-
-func AddSkin(c *gin.Context) {
-	var skin Skin
-
-	if err := c.ShouldBindJSON(&skin); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Couldn't parse json!"})
-		return
-	}
-
-	_, err := db.DB.Exec(`INSERT INTO skins(name, rarity, collection, quality, price, url)
-	VALUES (?, ?, ?, ?, ?, ?)`, skin.Name, skin.Rarity, skin.Collection, skin.Quality, skin.Price, skin.Url)
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Couldn't add skin!"})
-		return
-	}
-
-	c.JSON(http.StatusCreated, gin.H{"message": "Skin added!"})
 }
