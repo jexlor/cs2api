@@ -5,9 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:
-      - .:/app  # Bind mount for live code updates
-      - /app/tmp  # Temporary directory for caching or building
     env_file:
       - .env
     environment:
@@ -21,7 +18,6 @@ services:
     depends_on:
       - db
     restart: always
-    command: air  # Use air for hot reloading
 
   db:
     image: postgres:latest
@@ -56,7 +52,3 @@ volumes:
 networks:
   cs2_network:
     driver: bridge
-
-
-
-
