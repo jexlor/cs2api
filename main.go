@@ -14,6 +14,7 @@ import (
 )
 
 func main() {
+
 	db.InitDB()
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -26,10 +27,12 @@ func main() {
 	}
 
 	router := gin.Default()
+
+	//endpoints
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/cs2api", api.LandingPage)
 	router.GET("/cs2api/skins", api.GetAllSkins)
-	router.POST("/cs2api/skins", api.AddSkin)
+	// router.POST("/cs2api/skins", dev.AddSkin)
 	fmt.Println("Running api on port:", port)
 
 	err = router.Run(":" + port)
