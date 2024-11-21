@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/jexlor/cs2api/db"
+	"github.com/jexlor/cs2api/dev"
 
 	"github.com/jexlor/cs2api/api"
 
@@ -32,7 +33,7 @@ func main() {
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/cs2api", api.LandingPage)
 	router.GET("/cs2api/skins", api.GetAllSkins)
-	// router.POST("/cs2api/skins", dev.AddSkin)
+	router.POST("/cs2api/skins", dev.AddSkin)
 	fmt.Println("Running api on port:", port)
 
 	err = router.Run(":" + port)
