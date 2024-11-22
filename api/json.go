@@ -39,3 +39,54 @@ func getAllSkinsJson() ([]Skin, error) {
 	fmt.Println(len(skinsList))
 	return skinsList, nil
 }
+
+func getSkinByIdJson(id int) (Skin, error) {
+	var skin Skin
+	err := db.DB.QueryRow(`SELECT * FROM skins WHERE id = $1`, id).Scan(
+		&skin.Id,
+		&skin.Name,
+		&skin.Rarity,
+		&skin.Collection,
+		&skin.Quality,
+		&skin.Price,
+		&skin.Url,
+	)
+	if err != nil {
+		return Skin{}, err
+	}
+	return skin, nil
+}
+
+func getSkinByNameJson(name string) (Skin, error) {
+	var skin Skin
+	err := db.DB.QueryRow(`SELECT * FROM skins WHERE name LIKE $1`, name).Scan(
+		&skin.Id,
+		&skin.Name,
+		&skin.Rarity,
+		&skin.Collection,
+		&skin.Quality,
+		&skin.Price,
+		&skin.Url,
+	)
+	if err != nil {
+		return Skin{}, err
+	}
+	return skin, nil
+}
+
+// func getCollectionByNameJson(name string) (Skin, error) {
+// 	var collections Skin
+// 	err := db.DB.Query(`SELECT * FROM skins WHERE name LIKE $1`, name).Scan(
+// 		&skin.Id,
+// 		&skin.Name,
+// 		&skin.Rarity,
+// 		&skin.Collection,
+// 		&skin.Quality,
+// 		&skin.Price,
+// 		&skin.Url,
+// 	)
+// 	if err != nil {
+// 		return Skin{}, err
+// 	}
+// 	return skin, nil
+// }
