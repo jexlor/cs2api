@@ -33,6 +33,10 @@ func main() {
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/cs2api", api.LandingPage)
 	router.GET("/cs2api/skins", api.GetAllSkins)
+	router.GET("/cs2api/skins/search", api.GetSkinById)
+	router.GET("/cs2api/skins/search/n", api.GetSkinByName)
+	router.GET("/cs2api/collections", api.GetCollections)
+	router.GET("/cs2api/collections/search/n", api.GetCollectionByName)
 	router.POST("/cs2api/skins", dev.AddSkin)
 	fmt.Println("Running api on port:", port)
 
