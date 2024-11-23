@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -15,33 +14,40 @@ import (
 )
 
 func main() {
-
-	db.InitDB()
 	err := godotenv.Load(".env")
 	if err != nil {
-		log.Fatal("Couldn't load env file!")
+		log.Fatalf("Error loading .env file: %v", err)
 	}
+
+	db.InitDB()
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		log.Fatal("Port must be set!")
+		port = "8080" // Default to 8080 if not set
+		log.Printf("No PORT specified, defaulting to %s", port)
 	}
 
+	router := setupRouter()
+
+	if err := router.Run(":" + port); err != nil {
+		log.Fatalf("Error starting server: %v", err)
+	}
+}
+
+func setupRouter() *gin.Engine {
 	router := gin.Default()
 
-	//endpoints
 	router.LoadHTMLGlob("templates/*")
-	router.GET("/cs2api", api.LandingPage)
-	router.GET("/cs2api/skins", api.GetAllSkins)
-	router.GET("/cs2api/skins/search", api.GetSkinById)
-	router.GET("/cs2api/skins/search/n", api.GetSkinByName)
-	router.GET("/cs2api/collections", api.GetCollections)
-	router.GET("/cs2api/collections/search/n", api.GetCollectionByName)
-	router.POST("/cs2api/skins", dev.AddSkin)
-	fmt.Println("Running api on port:", port)
 
-	err = router.Run(":" + port)
-	if err != nil {
-		log.Fatal("Error starting server:", err)
+	apiGroup := router.Group("/cs2api")
+	{
+		apiGroup.GET("/", api.LandingPage)
+		apiGroup.GET("/skins", api.GetAllSkins)
+		apiGroup.GET("/skins/search", api.GetSkinById)
+		apiGroup.GET("/skins/search/n", api.GetSkinByName)
+		apiGroup.GET("/collections", api.GetCollections)
+		apiGroup.GET("/collections/search/n", api.GetCollectionByName)
+		apiGroup.POST("/skins", dev.AddSkin)
 	}
+	return router
 }
