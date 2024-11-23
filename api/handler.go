@@ -58,8 +58,22 @@ func GetSkinByName(c *gin.Context) {
 	c.JSON(http.StatusOK, skin)
 }
 func GetCollectionByName(c *gin.Context) {
-
+	name := c.Query("name")
+	if name == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "name parameter is required!"})
+		return
+	}
+	skinsFromCollection, err := getCollectionByNameJson(name)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Couldn't find collection with that name!"})
+		return
+	}
+	c.JSON(http.StatusOK, skinsFromCollection)
 }
 func GetCollections(c *gin.Context) {
-
+	collections, err := getCollectionsJson()
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Couldn't find collections!"})
+	}
+	c.JSON(http.StatusOK, collections)
 }
