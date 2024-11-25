@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -45,12 +46,14 @@ func GetSkinById(c *gin.Context) {
 
 func GetSkinByName(c *gin.Context) {
 	name := c.Query("name")
+	name = strings.TrimSpace(name)
 	if name == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "name parameter is required!"})
 		return
 	}
 
 	skin, err := getSkinByNameJson(name)
+
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Couldn't find skin with that name!"})
 		return
@@ -58,18 +61,23 @@ func GetSkinByName(c *gin.Context) {
 	c.JSON(http.StatusOK, skin)
 }
 func GetCollectionByName(c *gin.Context) {
-	name := c.Query("name")
+	name := c.DefaultQuery("name", "")
+	name = strings.TrimSpace(name)
 	if name == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "name parameter is required!"})
 		return
 	}
+
 	skinsFromCollection, err := getCollectionByNameJson(name)
+
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Couldn't find collection with that name!"})
 		return
 	}
+
 	c.JSON(http.StatusOK, skinsFromCollection)
 }
+
 func GetCollections(c *gin.Context) {
 	collections, err := getCollectionsJson()
 	if err != nil {
