@@ -10,7 +10,7 @@ import (
 func getAllSkinsJson() ([]Skin, error) {
 	rows, err := db.DB.Query("SELECT * FROM skins")
 	if err != nil {
-		log.Printf("Error executing query: %v", err)
+		log.Printf("Error executing query: %v", err) //remove raw database error messages for production
 		return nil, err
 	}
 	defer rows.Close()
@@ -20,7 +20,7 @@ func getAllSkinsJson() ([]Skin, error) {
 	for rows.Next() {
 		var s Skin
 		if err := rows.Scan(&s.Id, &s.Name, &s.Rarity, &s.Collection, &s.Quality, &s.Price, &s.Url); err != nil {
-			log.Printf("Error scanning row: %v", err)
+			log.Printf("Error scanning row: %v", err) //remove raw database error messages for production
 			return nil, err
 		}
 		skinsList = append(skinsList, s)
@@ -66,7 +66,7 @@ func getSkinByNameJson(name string) (Skin, error) {
 func getCollectionByNameJson(name string) ([]Skin, error) {
 	rows, err := db.DB.Query("SELECT * FROM skins WHERE collection = $1", name)
 	if err != nil {
-		log.Printf("Error executing query: %v", err)
+		log.Printf("Error executing query: %v", err) //remove raw database error messages for production
 		return nil, err
 	}
 
@@ -76,7 +76,7 @@ func getCollectionByNameJson(name string) ([]Skin, error) {
 	for rows.Next() {
 		var s Skin
 		if err := rows.Scan(&s.Id, &s.Name, &s.Rarity, &s.Collection, &s.Quality, &s.Price, &s.Url); err != nil {
-			log.Printf("Error scanning row: %v", err)
+			log.Printf("Error scanning row: %v", err) //remove raw database error messages for production
 			return nil, err
 		}
 		skinsFromCollection = append(skinsFromCollection, s)
@@ -87,7 +87,7 @@ func getCollectionByNameJson(name string) ([]Skin, error) {
 func getCollectionsJson() ([]Col, error) {
 	rows, err := db.DB.Query(`SELECT DISTINCT collection FROM skins`)
 	if err != nil {
-		log.Printf("Error executing query: %v", err)
+		log.Printf("Error executing query: %v", err) //remove raw database error messages for production
 		return nil, err
 	}
 
@@ -98,7 +98,7 @@ func getCollectionsJson() ([]Col, error) {
 	for rows.Next() {
 		var c Col
 		if err := rows.Scan(&c.Collection); err != nil {
-			log.Printf("Error scanning row: %v", err)
+			log.Printf("Error scanning row: %v", err) //remove raw database error messages for production
 			return nil, err
 		}
 		collections = append(collections, c)
