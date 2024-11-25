@@ -7,21 +7,6 @@ import (
 	"github.com/jexlor/cs2api/db"
 )
 
-// structure of skins
-type Skin struct {
-	Id         int    `json:"id"`
-	Name       string `json:"name"`
-	Rarity     string `json:"rarity"`
-	Collection string `json:"collection"`
-	Quality    string `json:"quality"`
-	Price      string `json:"price"` //type string in order to handle currency symbols
-	Url        string `json:"url"`
-}
-
-type Col struct {
-	Collection string `json:"collection"`
-}
-
 func getAllSkinsJson() ([]Skin, error) {
 	rows, err := db.DB.Query("SELECT * FROM skins")
 	if err != nil {
@@ -63,7 +48,7 @@ func getSkinByIdJson(id int) (Skin, error) {
 
 func getSkinByNameJson(name string) (Skin, error) {
 	var skin Skin
-	err := db.DB.QueryRow(`SELECT * FROM skins WHERE name LIKE $1`, name).Scan(
+	err := db.DB.QueryRow(`SELECT * FROM skins WHERE name = $1`, name).Scan(
 		&skin.Id,
 		&skin.Name,
 		&skin.Rarity,
@@ -79,7 +64,7 @@ func getSkinByNameJson(name string) (Skin, error) {
 }
 
 func getCollectionByNameJson(name string) ([]Skin, error) {
-	rows, err := db.DB.Query("SELECT * FROM skins WHERE collection LIKE $1", name)
+	rows, err := db.DB.Query("SELECT * FROM skins WHERE collection = $1", name)
 	if err != nil {
 		log.Printf("Error executing query: %v", err)
 		return nil, err
