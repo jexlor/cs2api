@@ -83,7 +83,6 @@ func getCollectionByNameJson(name string) ([]Skin, error) {
 	}
 	return skinsFromCollection, nil
 }
-
 func getCollectionsJson() ([]Col, error) {
 	rows, err := db.DB.Query(`SELECT DISTINCT collection FROM skins`)
 	if err != nil {
