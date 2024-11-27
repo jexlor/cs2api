@@ -21,6 +21,7 @@ services:
     volumes:
       - .:/app   # Mount project files for live reloading
       - air_config:/root/.air.toml # Custom Air config file
+
     working_dir: /app
     command: air # Start the app with Air for live reload
 
@@ -54,6 +55,7 @@ services:
 
 volumes:
   db_data:
+
   air_config: # Volume for custom Air config
 
 networks:
