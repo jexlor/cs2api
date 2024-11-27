@@ -1,4 +1,4 @@
-## Cs2Api 
+## Cs2Api ![Build Status](https://img.shields.io/github/actions/workflow/status/jexlor/cs2api/ci.yml?branch=main)
 
 # <img alt="cs2api" src="https://github.com/user-attachments/assets/a1dce9fe-507c-410d-9e4d-142d8b4cef13" width="220" />
 
