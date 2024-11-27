@@ -3,7 +3,9 @@ package main
 import (
 	"log"
 	"os"
+	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/jexlor/cs2api/db"
 	"github.com/jexlor/cs2api/dev"
 
@@ -36,6 +38,16 @@ func main() {
 
 func setupRouter() *gin.Engine {
 	router := gin.Default()
+
+	// Change CORS as you wish
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	router.LoadHTMLGlob("templates/*")
 
