@@ -9,7 +9,7 @@ import (
 
 // this package is for development only, hide this handlers and remove endpoints in main.go file for production.
 
-func deleteSkinByNameJson(name string) error {
+func DeleteSkinByNameJson(name string) error {
 	_, err := db.DB.Exec(`DELETE FROM skins WHERE name = $1`, name)
 	if err != nil {
 		log.Printf("Error deleting skin: %v", err)
@@ -18,7 +18,7 @@ func deleteSkinByNameJson(name string) error {
 	return nil
 }
 
-func updateSkinByNameJson(name string, updatedSkin api.Skin) error {
+func UpdateSkinByNameJson(name string, updatedSkin api.Skin) error {
 	query := `UPDATE skins SET 
 		name = $1,
 		rarity = $2,

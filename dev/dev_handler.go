@@ -36,7 +36,7 @@ func DeleteSkinByName(c *gin.Context) {
 		return
 	}
 
-	err := deleteSkinByNameJson(name)
+	err := DeleteSkinByNameJson(name)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Couldn't delete skin!"})
 		return
@@ -57,7 +57,7 @@ func UpdateSkinByName(c *gin.Context) {
 		return
 	}
 
-	err := updateSkinByNameJson(name, updatedSkin)
+	err := UpdateSkinByNameJson(name, updatedSkin)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Couldn't update skin!"})
 		return
