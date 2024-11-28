@@ -20,9 +20,20 @@ services:
     restart: always
     volumes:
       - .:/app   # Mount project files for live reloading
-      - air_config:/root/.air.yaml # Volume for custom Air config (Optional)
+      - air_config:/root/.air.toml # Custom Air config file
     working_dir: /app
-    command: air # Start the app with Air for live reload
+    command: sh -c "air"  # Run Air for live reloading, no test command here
+
+  # Tests service that runs tests independently
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: go test ./...
+    depends_on:
+      - db
+    networks:
+      - cs2_network
 
   db:
     image: postgres:latest
@@ -54,7 +65,7 @@ services:
 
 volumes:
   db_data:
-  air_config: # Volume for custom Air config (Optional)
+  air_config: # Volume for custom Air config
 
 networks:
   cs2_network:
