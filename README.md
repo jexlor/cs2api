@@ -42,5 +42,6 @@ docker compose up --build
 ```
 Access Api welcome page (localhost:8080/cs2api by default):
 ---------------------------
-![croped](https://github.com/user-attachments/assets/2bbce750-0db8-4d1c-a2bd-76cfae1d9efb)
+![cs2api](https://github.com/user-attachments/assets/054f00f3-aa2f-4b69-a2fe-dc15fdcc0c68)
+
 
