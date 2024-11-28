@@ -10,6 +10,20 @@ API which is written with <strong>Go + Gin</strong> framework. for DB I'm using 
 sites, convert it in neccessary form and add to database. since i want all information to be correct and updated weekly, it takes time, i'm also working to make copy of database with docker volumes so you can iterate over db.
 if you want to test api now, consider adding some rows to your local postgre database with credentials in <strong>.example.env</strong> file.)
 
+Structure of skins
+----------------------------
+```json
+{
+    "id": 1
+    "name": "test_name",
+    "rarity": "covert",
+    "collection": "bravo",
+    "quality": "Factory New",
+    "price": "$ 100",
+    "url": "exmaple.com/skin_image_url"
+}
+```
+
 Getting started with Cs2api.
 ----------------------------
 ```bash
