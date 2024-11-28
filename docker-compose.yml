@@ -20,7 +20,7 @@ services:
     restart: always
     volumes:
       - .:/app   # Mount project files for live reloading
-      - air_config:/root/.air.toml # Volume for custom Air config (Optional)
+      - air_config:/root/.air.yaml # Volume for custom Air config (Optional)
     working_dir: /app
     command: air # Start the app with Air for live reload
 
