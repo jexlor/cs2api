@@ -13,7 +13,7 @@ func LandingPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", nil)
 }
 func GetAllSkins(c *gin.Context) {
-	skins, err := getAllSkinsJson()
+	skins, err := GetAllSkinsJson()
 	if err != nil {
 		log.Printf("Error fetching skins: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Couldn't serve skins!"})
@@ -35,7 +35,7 @@ func GetSkinById(c *gin.Context) {
 		return
 	}
 
-	skin, err := getSkinByIdJson(Id)
+	skin, err := GetSkinByIdJson(Id)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Couldn't find skin with that id!"})
 		return
@@ -52,7 +52,7 @@ func GetSkinByName(c *gin.Context) {
 		return
 	}
 
-	skin, err := getSkinByNameJson(name)
+	skin, err := GetSkinByNameJson(name)
 
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Couldn't find skin with that name!"})
@@ -68,7 +68,7 @@ func GetCollectionByName(c *gin.Context) {
 		return
 	}
 
-	skinsFromCollection, err := getCollectionByNameJson(name)
+	skinsFromCollection, err := GetCollectionByNameJson(name)
 
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Couldn't find collection with that name!"})
@@ -79,7 +79,7 @@ func GetCollectionByName(c *gin.Context) {
 }
 
 func GetCollections(c *gin.Context) {
-	collections, err := getCollectionsJson()
+	collections, err := GetCollectionsJson()
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Couldn't find collections!"})
 	}

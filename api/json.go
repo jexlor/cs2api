@@ -7,7 +7,7 @@ import (
 	"github.com/jexlor/cs2api/db"
 )
 
-func getAllSkinsJson() ([]Skin, error) {
+func GetAllSkinsJson() ([]Skin, error) {
 	rows, err := db.DB.Query("SELECT * FROM skins")
 	if err != nil {
 		log.Printf("Error executing query: %v", err) //remove raw database error messages for production
@@ -29,7 +29,7 @@ func getAllSkinsJson() ([]Skin, error) {
 	return skinsList, nil
 }
 
-func getSkinByIdJson(id int) (Skin, error) {
+func GetSkinByIdJson(id int) (Skin, error) {
 	var skin Skin
 	err := db.DB.QueryRow(`SELECT * FROM skins WHERE id = $1`, id).Scan(
 		&skin.Id,
@@ -46,7 +46,7 @@ func getSkinByIdJson(id int) (Skin, error) {
 	return skin, nil
 }
 
-func getSkinByNameJson(name string) (Skin, error) {
+func GetSkinByNameJson(name string) (Skin, error) {
 	var skin Skin
 	err := db.DB.QueryRow(`SELECT * FROM skins WHERE name = $1`, name).Scan(
 		&skin.Id,
@@ -63,7 +63,7 @@ func getSkinByNameJson(name string) (Skin, error) {
 	return skin, nil
 }
 
-func getCollectionByNameJson(name string) ([]Skin, error) {
+func GetCollectionByNameJson(name string) ([]Skin, error) {
 	rows, err := db.DB.Query("SELECT * FROM skins WHERE collection = $1", name)
 	if err != nil {
 		log.Printf("Error executing query: %v", err) //remove raw database error messages for production
@@ -83,7 +83,7 @@ func getCollectionByNameJson(name string) ([]Skin, error) {
 	}
 	return skinsFromCollection, nil
 }
-func getCollectionsJson() ([]Col, error) {
+func GetCollectionsJson() ([]Col, error) {
 	rows, err := db.DB.Query(`SELECT DISTINCT collection FROM skins`)
 	if err != nil {
 		log.Printf("Error executing query: %v", err) //remove raw database error messages for production
