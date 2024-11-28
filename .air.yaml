@@ -9,14 +9,14 @@ ignore:
   - .git
   - .idea
   - .vscode
-  - *.md
-  - *.yml
+  - "*.md"
+  - "*.yml"
   - .air.yaml
 
 build:
-  bin: myapp 
-  cmd: ./main.go 
+  bin: myapp
+  cmd: go test ./... && go build -o ./myapp ./main.go  # Run tests, then build the app
 
 run:
-  cmd: ./myapp
+  cmd: ./myapp  # Run the app after tests and build
 
