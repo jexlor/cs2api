@@ -20,7 +20,7 @@ Structure of skins
     "collection": "bravo",
     "quality": "Factory New",
     "price": "$ 100",
-    "url": "exmaple.com/skin_image_url"
+    "url": "example.com/skin_image_url"
 }
 ```
 
