@@ -14,11 +14,11 @@ Cases and collections supported:
 
 <strong>Gallery case, </strong>
 <strong>Kilowatt Case, </strong>
-<strong>Revolution Case, </strong>
+<strong>Revolution Case, </strong> 
 <strong>Recoil Case, </strong>
 <strong>Dreams and Nightmares Case, </strong>
 
-Total skins: <strong>66</strong>
+Total skins: <strong>66</strong> <br>
 Last updated prices & collections: <strong>30.11.24</strong>
 
 Structure of skins
