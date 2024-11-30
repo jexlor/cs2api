@@ -5,18 +5,18 @@
 What's Cs2Api?
 ---------------------------
 <strong>cs2api</strong> repo contains database filled with all the information about skins from cs2 (game). all that is accessible with 
-API which is written with <strong>Go + Gin</strong> framework. for DB I'm using <strong>PostgreSql<strong>. Api can work for any type of project which needs db+api to serve info about thousands of skins.
+API which is written with <strong>Go + Gin</strong> framework. for DB I'm using <strong>PostgreSql</strong>. Api can work for any type of project which needs db+api to serve info about thousands of skins.
 (for now, api is done but database is empty. it has only some rows for testing. there is still work to do.. i'm working on web scraper which should take all info from various 
 sites, convert it in neccessary form and add to database. since i want all information to be correct and updated weekly, it takes time, i'm also working to make copy of database with docker volumes so you can iterate over db.
 if you want to test api now, consider adding some rows to your local postgre database with credentials in <strong>.example.env</strong> file.)
 
 cases and collections supported for now:
 
-<strong>Gallery case</strong>
-<strong>Kilowatt Case</strong>
-<strong>Revolution Case</strong>
-<strong>Recoil Case</strong>
-<strong>Dreams and Nightmares Case</strong>
+<strong>Gallery case, </strong>
+<strong>Kilowatt Case, </strong>
+<strong>Revolution Case, </strong>
+<strong>Recoil Case, </strong>
+<strong>Dreams and Nightmares Case, </strong>
 
 Structure of skins
 ----------------------------
