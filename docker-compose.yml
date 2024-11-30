@@ -19,12 +19,11 @@ services:
       - db
     restart: always
     volumes:
-      - .:/app   # Mount project files for live reloading
-      - air_config:/root/.air.toml # Custom Air config file
+      - .:/app
+      - air_config:/root/.air.yaml # Custom Air config file
     working_dir: /app
-    command: sh -c "air"  # Run Air for live reloading, no test command here
+    command: sh -c "air"
 
-  # Tests service that runs tests independently
   tests:
     build:
       context: .
