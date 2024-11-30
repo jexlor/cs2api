@@ -59,7 +59,7 @@ func setupRouter() *gin.Engine {
 		apiGroup.GET("/skins/search/n", api.GetSkinByName)
 		apiGroup.GET("/collections", api.GetCollections)
 		apiGroup.GET("/collections/search/n", api.GetCollectionByName)
-		apiGroup.POST("/skins", dev.AddSkin)                   //hide for production
+		apiGroup.POST("/skins", dev.AddSkins)                  //hide for production
 		apiGroup.DELETE("/skins/delete", dev.DeleteSkinByName) //hide for production
 		apiGroup.PUT("/skins/edit", dev.UpdateSkinByName)      //hide for production
 	}
