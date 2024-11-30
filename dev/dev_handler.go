@@ -10,23 +10,31 @@ import (
 
 // this package is for development only, hide this handlers and remove endpoints in main.go file for production.
 
-func AddSkin(c *gin.Context) {
-	var skin api.Skin
+func AddSkins(c *gin.Context) {
+	var skins []api.Skin
 
-	if err := c.ShouldBindJSON(&skin); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Couldn't parse json!"})
+	if err := c.ShouldBindJSON(&skins); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Couldn't parse JSON!"})
 		return
 	}
 
-	_, err := db.DB.Exec(`INSERT INTO skins(name, rarity, collection, quality, price, url)
-	VALUES ($1, $2, $3, $4, $5, $6)`, skin.Name, skin.Rarity, skin.Collection, skin.Quality, skin.Price, skin.Url)
-
+	stmt, err := db.DB.Prepare(`INSERT INTO skins(name, rarity, collection, quality, price, url)
+	VALUES ($1, $2, $3, $4, $5, $6)`)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Couldn't add skin!"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Couldn't prepare SQL statement!"})
 		return
 	}
+	defer stmt.Close()
 
-	c.JSON(http.StatusCreated, gin.H{"message": "Skin added!"})
+	for _, skin := range skins {
+		_, err := stmt.Exec(skin.Name, skin.Rarity, skin.Collection, skin.Quality, skin.Price, skin.Url)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Couldn't add one or more skins!"})
+			return
+		}
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "All skins added successfully!"})
 }
 
 func DeleteSkinByName(c *gin.Context) {
