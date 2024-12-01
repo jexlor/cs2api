@@ -22,7 +22,7 @@ Cases and collections supported:
 <strong>The Fracture Collection, </strong>
 <strong>The Dreams and Nightmares Collection, </strong>
 
-Total skins: <strong>158</strong> <br>
+Total skins: <strong>265</strong> <br>
 Last updated prices & collections: <strong>30.11.24</strong>
 
 Structure of skins
