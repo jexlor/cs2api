@@ -23,7 +23,7 @@ Cases and collections supported:
 <strong>The Dreams and Nightmares Collection, </strong>
 
 Total skins: <strong>265</strong> <br>
-Last updated prices & collections: <strong>30.11.24</strong>
+Last updated prices & collections: <strong>1.12.24</strong>
 
 Structure of skins
 ----------------------------
