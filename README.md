@@ -50,7 +50,7 @@ First step (copy .env file in repo root)
 ```bash
 cp .example.env .env
 ```
-Run Docker:
+Run Docker container:
 ----------------------------
 ```bash
 docker compose up --build
