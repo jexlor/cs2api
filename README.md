@@ -8,20 +8,6 @@ What's Cs2Api?
 API which is written with <strong>Go + Gin</strong> framework. for DB I'm using <strong>PostgreSql</strong>. Api can work for any type of project which needs db+api to serve info about thousands of skins.
 (Volume of database will be added to repo as soon as it's ready)
 
-Cases and collections supported:
-
-<strong>Gallery case, </strong>
-<strong>Kilowatt Case, </strong>
-<strong>Revolution Case, </strong> 
-<strong>Recoil Case, </strong>
-<strong>Glove Case, </strong>
-<strong>The Snakebite Collection, </strong>
-<strong>The Operation Broken Fang Collection, </strong>
-<strong>Clutch Case, </strong>
-<strong>The Prisma 2 Collection, </strong>
-<strong>The Fracture Collection, </strong>
-<strong>The Dreams and Nightmares Collection, </strong>
-
 Total skins: <strong>265</strong> <br>
 Last updated prices & collections: <strong>1.12.24</strong>
 
