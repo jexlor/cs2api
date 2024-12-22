@@ -41,7 +41,7 @@ Run Docker container:
 ```bash
 docker compose up --build
 ```
-Access Api welcome page (localhost:8080/cs2api by default):
+Access Api welcome page (on default cs2api endpoint):
 ---------------------------
 ![cs2api](https://github.com/user-attachments/assets/054f00f3-aa2f-4b69-a2fe-dc15fdcc0c68)
 
