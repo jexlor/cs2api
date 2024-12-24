@@ -19,7 +19,7 @@ func GetAllSkinsJson() ([]Skin, error) {
 
 	for rows.Next() {
 		var s Skin
-		if err := rows.Scan(&s.Id, &s.Name, &s.Rarity, &s.Collection, &s.Quality, &s.Price, &s.Url); err != nil {
+		if err := rows.Scan(&s.Id, &s.Name, &s.Rarity, &s.Collection, &s.Quality, &s.Price, &s.StattrackPrice, &s.Url); err != nil {
 			log.Printf("Error scanning row: %v", err) //remove raw database error messages for production
 			return nil, err
 		}
@@ -38,6 +38,7 @@ func GetSkinByIdJson(id int) (Skin, error) {
 		&skin.Collection,
 		&skin.Quality,
 		&skin.Price,
+		&skin.StattrackPrice,
 		&skin.Url,
 	)
 	if err != nil {
@@ -55,6 +56,7 @@ func GetSkinByNameJson(name string) (Skin, error) {
 		&skin.Collection,
 		&skin.Quality,
 		&skin.Price,
+		&skin.StattrackPrice,
 		&skin.Url,
 	)
 	if err != nil {
@@ -75,7 +77,7 @@ func GetCollectionByNameJson(name string) ([]Skin, error) {
 	var skinsFromCollection []Skin
 	for rows.Next() {
 		var s Skin
-		if err := rows.Scan(&s.Id, &s.Name, &s.Rarity, &s.Collection, &s.Quality, &s.Price, &s.Url); err != nil {
+		if err := rows.Scan(&s.Id, &s.Name, &s.Rarity, &s.Collection, &s.Quality, &s.Price, &s.StattrackPrice, &s.Url); err != nil {
 			log.Printf("Error scanning row: %v", err) //remove raw database error messages for production
 			return nil, err
 		}
