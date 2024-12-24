@@ -25,8 +25,9 @@ func UpdateSkinByNameJson(name string, updatedSkin api.Skin) error {
 		collection = $3,
 		quality = $4,
 		price = $5,
-		url = $6
-	WHERE name = $7`
+		statrack_price = $6,
+		url = $7
+	WHERE name = $8`
 	_, err := db.DB.Exec(query,
 		updatedSkin.Name,
 		updatedSkin.Rarity,
