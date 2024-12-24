@@ -38,8 +38,8 @@ services:
     image: postgres:latest
     environment:
       POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: POSTGRES_PASSWORD=${DB_PASSWORD}
-      POSTGRES_DB: POSTGRES_DB=${DB_NAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     volumes:
       - db_data:/var/lib/postgresql/data
       - ./init/db_dump.sql:/docker-entrypoint-initdb.d/db_dump.sql
@@ -48,6 +48,7 @@ services:
     ports:
       - "5432:5432"
     restart: always
+
 
   pgadmin:
     image: dpage/pgadmin4
