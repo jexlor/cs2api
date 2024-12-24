@@ -20,7 +20,8 @@ Structure of skins
     "rarity": "covert",
     "collection": "bravo",
     "quality": "Factory New",
-    "price": "$ 100",
+    "price": "$100",
+    "stattrack_price": "$1000",
     "url": "example.com/skin_image_url"
 }
 ```
