@@ -9,7 +9,7 @@ API which is written with <strong>Go + Gin</strong> framework. for DB I'm using 
 (Volume of database will be added to repo as soon as it's ready)
 
 Total skins: <strong>265</strong> <br>
-Last updated prices & collections: <strong>1.12.24</strong>
+Last updated prices & collections: <strong>1.12.24</strong> <br>
 <strong>JWT Support:</strong> In development..
 
 Structure of skins
