@@ -5,24 +5,25 @@
 What's Cs2Api?
 ---------------------------
 <strong>cs2api</strong> repo contains database filled with all the information about skins from cs2 (game). all that is accessible with 
-API which is written with <strong>Go + Gin</strong> framework. for DB I'm using <strong>PostgreSql</strong>. Api can work for any type of project which needs db+api to serve info about thousands of skins.
+Api which is written with <strong>Go + Gin</strong> framework. for DB Api has <strong>PostgreSql</strong>. Api can work for any type of project which needs db + api to serve info about thousands of skins.
 (Volume of database will be added to repo as soon as it's ready)
 
-Total skins: <strong>265</strong> <br>
-Last updated prices & collections: <strong>1.12.24</strong> <br>
-<strong>JWT Support:</strong> In development..
+Total skins: <strong>300</strong> <br>
+Last updated prices & collections: <strong>6.1.25</strong>
+
+Additional features: <strong>DB Migrations</strong>, <strong>JWT (disabled by default)</strong>, <strong>Rate limiting (disabled by default)</strong>
 
 Structure of skins
 ----------------------------
 ```json
 {
-    "id": 1
+    "id": 1,
     "name": "test_name",
     "rarity": "covert",
     "collection": "bravo",
     "quality": "Factory New",
-    "price": "$100",
-    "stattrack_price": "$1000",
+    "price": "$100-$150",
+    "stattrack_price": "$500-$750",
     "url": "example.com/skin_image_url"
 }
 ```
