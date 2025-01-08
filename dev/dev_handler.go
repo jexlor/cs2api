@@ -27,7 +27,7 @@ func AddSkins(c *gin.Context) {
 	defer stmt.Close()
 
 	for _, skin := range skins {
-		_, err := stmt.Exec(skin.Name, skin.Rarity, skin.Collection, skin.Quality, skin.Price, skin.StattrackPrice, skin.Url)
+		_, err := stmt.Exec(skin.Name, skin.Rarity, skin.Collection, skin.Price, skin.StattrackPrice, skin.Url)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Couldn't add one or more skins!"})
 			return

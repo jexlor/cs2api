@@ -49,6 +49,7 @@ func setupRouter() *gin.Engine {
 	}))
 
 	router.LoadHTMLGlob("templates/*")
+	
 
 	// Define your API routes
 	apiGroup := router.Group("/cs2api")

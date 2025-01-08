@@ -32,7 +32,6 @@ func UpdateSkinByNameJson(name string, updatedSkin api.Skin) error {
 		updatedSkin.Name,
 		updatedSkin.Rarity,
 		updatedSkin.Collection,
-		updatedSkin.Quality,
 		updatedSkin.Price,
 		updatedSkin.Url,
 		name)
