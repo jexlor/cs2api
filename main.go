@@ -49,7 +49,6 @@ func setupRouter() *gin.Engine {
 	}))
 
 	router.LoadHTMLGlob("templates/*")
-	
 
 	// Define your API routes
 	apiGroup := router.Group("/cs2api")
@@ -63,6 +62,8 @@ func setupRouter() *gin.Engine {
 		apiGroup.POST("/skins", dev.AddSkins)                  // hide for production
 		apiGroup.DELETE("/skins/delete", dev.DeleteSkinByName) // hide for production
 		apiGroup.PUT("/skins/edit", dev.UpdateSkinByName)      // hide for production
+
+		//apiGroup.PATCH("/skins/edit", dev.UpdateSkinPrices)
 	}
 
 	return router
