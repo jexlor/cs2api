@@ -24,7 +24,6 @@ Structure of skins
     "name": "test_name",
     "rarity": "covert",
     "collection": "bravo",
-    "quality": "Factory New",
     "price": "$100-$150",
     "stattrack_price": "$500-$750",
     "url": "example.com/skin_image_url"
