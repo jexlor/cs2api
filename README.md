@@ -14,7 +14,7 @@ Where Cs2Api gets information about skins?
 Total skins: <strong>300</strong> <br>
 Last updated prices & collections: <strong>6.1.25</strong>
 
-Additional features (disabled by default): <strong>PgAdmin</strong>, <strong>DB Migrations</strong>, <strong>JWT</strong>, <strong>Rate limiting</strong>
+Additional features which you can enable (disabled by default): <strong>PgAdmin</strong>, <strong>DB Migrations</strong>, <strong>JWT</strong>, <strong>Rate limiting</strong>
 
 Structure of skins
 ----------------------------
