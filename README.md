@@ -22,6 +22,7 @@ Structure of skins
 {
     "id": 1,
     "name": "test_name",
+    "weapon": "AK-47"
     "rarity": "covert",
     "collection": "bravo",
     "price": "$100-$150",
