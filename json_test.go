@@ -33,17 +33,18 @@ func TestGetSkinByIdJson(t *testing.T) {
 	waitForDB(db)
 
 	mock.ExpectQuery(`SELECT \* FROM skins WHERE id = \$1`).WithArgs(1).
-		WillReturnRows(sqlmock.NewRows([]string{"id", "name", "rarity", "collection", "price", "stattrack_price", "url"}).
-			AddRow(1, "Skin A", "Rare", "Collection A", "$100", "$100", "http://example.com"))
+		WillReturnRows(sqlmock.NewRows([]string{"id", "name", "weapon", "rarity", "collection", "price", "stattrack_price", "url"}).
+			AddRow(1, "Skin A", "AK-47", "Rare", "Collection A", "$100", "$100", "http://example.com"))
 
 	var skin api.Skin
-	err = db.QueryRow("SELECT * FROM skins WHERE id = $1", 1).Scan(&skin.Id, &skin.Name, &skin.Rarity, &skin.Collection, &skin.Price, &skin.StattrackPrice, &skin.Url)
+	err = db.QueryRow("SELECT * FROM skins WHERE id = $1", 1).Scan(&skin.Id, &skin.Name, &skin.Weapon, &skin.Rarity, &skin.Collection, &skin.Price, &skin.StattrackPrice, &skin.Url)
 	if err != nil {
 		t.Fatalf("Error retrieving skin: %s", err)
 	}
 
 	assert.Equal(t, 1, skin.Id)
 	assert.Equal(t, "Skin A", skin.Name)
+	assert.Equal(t, "AK-47", skin.Weapon)
 	assert.Equal(t, "Rare", skin.Rarity)
 	assert.Equal(t, "Collection A", skin.Collection)
 	assert.Equal(t, "$100", skin.Price)

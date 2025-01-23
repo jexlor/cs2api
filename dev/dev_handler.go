@@ -18,16 +18,18 @@ func AddSkins(c *gin.Context) {
 		return
 	}
 
-	stmt, err := db.DB.Prepare(`INSERT INTO skins(name, rarity, collection, quality, price, stattrack_price, url)
+	stmt, err := db.DB.Prepare(`INSERT INTO skins(name, weapon, rarity, collection,  price, stattrack_price, url)
 	VALUES ($1, $2, $3, $4, $5, $6, $7)`)
+
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Couldn't prepare SQL statement!"})
 		return
+
 	}
 	defer stmt.Close()
 
 	for _, skin := range skins {
-		_, err := stmt.Exec(skin.Name, skin.Rarity, skin.Collection, skin.Price, skin.StattrackPrice, skin.Url)
+		_, err := stmt.Exec(skin.Name, skin.Weapon, skin.Rarity, skin.Collection, skin.Price, skin.StattrackPrice, skin.Url)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Couldn't add one or more skins!"})
 			return

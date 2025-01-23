@@ -4,6 +4,7 @@ package api
 type Skin struct {
 	Id             int    `json:"id"`
 	Name           string `json:"name"`
+	Weapon         string `json:"weapon"`
 	Rarity         string `json:"rarity"`
 	Collection     string `json:"collection"`
 	Price          string `json:"price"`           //type string in order to handle currency symbols
