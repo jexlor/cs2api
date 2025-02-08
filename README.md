@@ -9,7 +9,7 @@ Api which is written with <strong>Go + Gin</strong> framework. for DB Api has <s
 
 Where Cs2Api gets information about skins?
 -----------------------------------------------
-<strong>cs2api</strong> database is filled with real data from real sites. api uses scraping tool which will be released on that account once it's 100% ready and useful, basically data on that api is the same you see on major sites. scraper automatically updates prices of that data every week (still in development)
+<strong>cs2api</strong> database is filled with real data from real sites. api uses scraping tool which will be released once it's 100% ready and useful, basically data on that api is the same you see on major sites. scraper automatically updates prices of that data every week (still in development)
 
 Total skins: <strong>603</strong> <br>
 Last updated prices & collections: <strong>23.1.25</strong>
