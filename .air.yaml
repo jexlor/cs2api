@@ -15,8 +15,8 @@ ignore:
 
 build:
   bin: myapp
-  cmd: go test ./... && go build -o ./myapp ./main.go  # Run tests, then build the app
+  cmd: go test ./... && go build -o ./myapp ./main.go
 
 run:
-  cmd: ./myapp  # Run the app after tests and build
+  cmd: ./myapp 
 

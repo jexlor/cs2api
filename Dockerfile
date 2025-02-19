@@ -1,4 +1,4 @@
-FROM golang:1.23.3-alpine
+FROM golang:1.24.0-alpine
 
 RUN apk add --no-cache git bash && \
     go install github.com/air-verse/air@latest
