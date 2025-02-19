@@ -9,8 +9,15 @@ import (
 )
 
 // this package is for development only, hide this handlers and remove endpoints in main.go file for production.
+type Handler struct {
+	db *db.Database
+}
 
-func AddSkins(c *gin.Context) {
+func Devhandler(db *db.Database) *Handler {
+	return &Handler{db: db}
+}
+
+func (h *Handler) AddSkins(c *gin.Context) {
 	var skins []api.Skin
 
 	if err := c.ShouldBindJSON(&skins); err != nil {
@@ -18,7 +25,7 @@ func AddSkins(c *gin.Context) {
 		return
 	}
 
-	stmt, err := db.DB.Prepare(`INSERT INTO skins(name, weapon, rarity, collection,  price, stattrack_price, url)
+	stmt, err := h.db.DB.Prepare(`INSERT INTO skins(name, weapon, rarity, collection,  price, stattrack_price, url)
 	VALUES ($1, $2, $3, $4, $5, $6, $7)`)
 
 	if err != nil {
@@ -39,14 +46,14 @@ func AddSkins(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"message": "All skins added successfully!"})
 }
 
-func DeleteSkinByName(c *gin.Context) {
+func (h *Handler) DeleteSkinByName(c *gin.Context) {
 	name := c.Query("name")
 	if name == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "name parameter is required!"})
 		return
 	}
 
-	err := DeleteSkinByNameJson(name)
+	err := DeleteSkinByNameJson(h.db, name)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Couldn't delete skin!"})
 		return
@@ -54,7 +61,7 @@ func DeleteSkinByName(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"Message": "Skin deleted successfully!"})
 }
 
-func UpdateSkinByName(c *gin.Context) {
+func (h *Handler) UpdateSkinByName(c *gin.Context) {
 	name := c.Query("name")
 	if name == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Name parameter is required!"})
@@ -67,7 +74,7 @@ func UpdateSkinByName(c *gin.Context) {
 		return
 	}
 
-	err := UpdateSkinByNameJson(name, updatedSkin)
+	err := UpdateSkinByNameJson(h.db, name, updatedSkin)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Couldn't update skin!"})
 		return

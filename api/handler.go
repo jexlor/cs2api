@@ -1,6 +1,7 @@
 package api
 
 import (
+	"github.com/jexlor/cs2api/db"
 	"log"
 	"net/http"
 	"strconv"
@@ -9,11 +10,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type Handler struct {
+	db *db.Database
+}
+
+func NewHandler(db *db.Database) *Handler {
+	return &Handler{db: db}
+}
+
 func LandingPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", nil)
 }
-func GetAllSkins(c *gin.Context) {
-	skins, err := GetAllSkinsJson()
+func (h *Handler) GetAllSkins(c *gin.Context) {
+	skins, err := GetAllSkinsJson(h.db)
 	if err != nil {
 		log.Printf("Error fetching skins: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Couldn't serve skins!"})
@@ -22,7 +31,7 @@ func GetAllSkins(c *gin.Context) {
 
 	c.JSON(http.StatusOK, skins)
 }
-func GetSkinById(c *gin.Context) {
+func (h *Handler) GetSkinById(c *gin.Context) {
 	idParam := c.Query("id")
 	if idParam == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Id parameter is required!"})
@@ -35,7 +44,7 @@ func GetSkinById(c *gin.Context) {
 		return
 	}
 
-	skin, err := GetSkinByIdJson(Id)
+	skin, err := GetSkinByIdJson(h.db, Id)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Couldn't find skin with that id!"})
 		return
@@ -44,7 +53,7 @@ func GetSkinById(c *gin.Context) {
 	c.JSON(http.StatusOK, skin)
 }
 
-func GetSkinByName(c *gin.Context) {
+func (h *Handler) GetSkinByName(c *gin.Context) {
 	name := c.Query("name")
 	name = strings.TrimSpace(name)
 	if name == "" {
@@ -52,7 +61,7 @@ func GetSkinByName(c *gin.Context) {
 		return
 	}
 
-	skin, err := GetSkinByNameJson(name)
+	skin, err := GetSkinByNameJson(h.db, name)
 
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Couldn't find skin with that name!"})
@@ -60,7 +69,7 @@ func GetSkinByName(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, skin)
 }
-func GetCollectionByName(c *gin.Context) {
+func (h *Handler) GetCollectionByName(c *gin.Context) {
 	name := c.DefaultQuery("name", "")
 	name = strings.TrimSpace(name)
 	if name == "" {
@@ -68,7 +77,7 @@ func GetCollectionByName(c *gin.Context) {
 		return
 	}
 
-	skinsFromCollection, err := GetCollectionByNameJson(name)
+	skinsFromCollection, err := GetCollectionByNameJson(h.db, name)
 
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Couldn't find collection with that name!"})
@@ -78,8 +87,8 @@ func GetCollectionByName(c *gin.Context) {
 	c.JSON(http.StatusOK, skinsFromCollection)
 }
 
-func GetCollections(c *gin.Context) {
-	collections, err := GetCollectionsJson()
+func (h *Handler) GetCollections(c *gin.Context) {
+	collections, err := GetCollectionsJson(h.db)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Couldn't find collections!"})
 	}

@@ -5,14 +5,16 @@ import (
 	"os"
 	"time"
 
-	"github.com/gin-contrib/cors"
-	"github.com/jexlor/cs2api/api"
-	"github.com/jexlor/cs2api/db"
 	"github.com/jexlor/cs2api/dev"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/jexlor/cs2api/api"
+	"github.com/jexlor/cs2api/db"
 	"github.com/joho/godotenv"
 )
+
+//todo gracefully shutdown, add proper logging, env file managment of dev tools
 
 func main() {
 	err := godotenv.Load(".env")
@@ -20,7 +22,12 @@ func main() {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
 
-	db.InitDB()
+	db, err := db.InitDB()
+	if err != nil {
+		log.Fatalf("Database initialization failed: %v", err)
+	}
+	handler := api.NewHandler(db)
+	devhandler := dev.Devhandler(db)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -28,14 +35,15 @@ func main() {
 		log.Printf("No PORT specified, defaulting to %s", port)
 	}
 
-	router := setupRouter()
+	router := setupRouter(handler, devhandler)
 
 	if err := router.Run(":" + port); err != nil {
 		log.Fatalf("Error starting server: %v", err)
 	}
+
 }
 
-func setupRouter() *gin.Engine {
+func setupRouter(handler *api.Handler, devhandler *dev.Handler) *gin.Engine {
 	router := gin.Default()
 
 	// Update CORS to allow the hx-trigger header and any other headers you may need
@@ -54,17 +62,17 @@ func setupRouter() *gin.Engine {
 	apiGroup := router.Group("/cs2api")
 	{
 		apiGroup.GET("/", api.LandingPage)
-		apiGroup.GET("/skins", api.GetAllSkins)
-		apiGroup.GET("/skins/search", api.GetSkinById)
-		apiGroup.GET("/skins/search/n", api.GetSkinByName)
-		apiGroup.GET("/collections", api.GetCollections)
-		apiGroup.GET("/collections/search/n", api.GetCollectionByName)
-		apiGroup.POST("/skins", dev.AddSkins)                  // hide for production
-		apiGroup.DELETE("/skins/delete", dev.DeleteSkinByName) // hide for production
-		apiGroup.PUT("/skins/edit", dev.UpdateSkinByName)      // hide for production
-
-		//apiGroup.PATCH("/skins/edit", dev.UpdateSkinPrices)
+		apiGroup.GET("/skins", handler.GetAllSkins)
+		apiGroup.GET("/skins/search", handler.GetSkinById)
+		apiGroup.GET("/skins/search/n", handler.GetSkinByName)
+		apiGroup.GET("/collections", handler.GetCollections)
+		apiGroup.GET("/collections/search/n", handler.GetCollectionByName)
+		apiGroup.POST("/skins", devhandler.AddSkins)
+		apiGroup.DELETE("/skins/delete", devhandler.DeleteSkinByName)
+		apiGroup.PUT("/skins/edit", devhandler.UpdateSkinByName)
+		apiGroup.PATCH("/skins/edit", devhandler.UpdateSkinByName)
 	}
+	//todo gracefully shutdown
 
 	return router
 }

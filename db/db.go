@@ -3,16 +3,17 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"log"
-	"os"
-
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
+	"log"
+	"os"
 )
 
-var DB *sql.DB
+type Database struct {
+	DB *sql.DB
+}
 
-func InitDB() {
+func InitDB() (*Database, error) {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -26,15 +27,19 @@ func InitDB() {
 
 	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", user, password, host, port, dbname)
 
-	DB, err = sql.Open("postgres", connStr)
+	DB, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal(err)
 	}
+	DB.SetMaxOpenConns(25)
+	DB.SetMaxIdleConns(10)
+	//DB.SetConnMaxLifetime(5 * time.Minute)
 
 	err = DB.Ping()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Connected to the database!")
+	log.Println("Connected to the database!")
+	return &Database{DB: DB}, nil
 }
