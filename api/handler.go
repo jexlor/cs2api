@@ -1,13 +1,13 @@
 package api
 
 import (
-	"github.com/jexlor/cs2api/db"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jexlor/cs2api/db"
 )
 
 type Handler struct {

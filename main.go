@@ -14,8 +14,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-//todo gracefully shutdown, add proper logging, env file managment of dev tools
-
 func main() {
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -31,7 +29,7 @@ func main() {
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080" // Default to 8080 if not set
+		port = "8080"
 		log.Printf("No PORT specified, defaulting to %s", port)
 	}
 
@@ -46,11 +44,10 @@ func main() {
 func setupRouter(handler *api.Handler, devhandler *dev.Handler) *gin.Engine {
 	router := gin.Default()
 
-	// Update CORS to allow the hx-trigger header and any other headers you may need
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"}, // You can change this to the specific frontend URL if needed
+		AllowOrigins:     []string{"*"}, // custom
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Content-Type", "Authorization", "hx-trigger"}, // Allow hx-trigger header
+		AllowHeaders:     []string{"Content-Type", "Authorization", "hx-trigger"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
@@ -72,7 +69,11 @@ func setupRouter(handler *api.Handler, devhandler *dev.Handler) *gin.Engine {
 		apiGroup.PUT("/skins/edit", devhandler.UpdateSkinByName)
 		apiGroup.PATCH("/skins/edit", devhandler.UpdateSkinByName)
 	}
-	//todo gracefully shutdown
 
+	//todo gracefully shutdown
+	//jwt middleware
+	//rate limiting
+	//proper logging
+	//disable/enable dev tools form .env
 	return router
 }

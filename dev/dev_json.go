@@ -7,8 +7,6 @@ import (
 	"github.com/jexlor/cs2api/db"
 )
 
-// this package is for development only, hide handlers and remove endpoints in main.go file for production.
-
 func DeleteSkinByNameJson(database *db.Database, name string) error {
 	_, err := database.DB.Exec(`DELETE FROM skins WHERE name = $1`, name)
 	if err != nil {

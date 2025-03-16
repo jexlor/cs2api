@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/jexlor/cs2api/db"
@@ -26,7 +25,6 @@ func GetAllSkinsJson(database *db.Database) ([]Skin, error) {
 		}
 		skinsList = append(skinsList, s)
 	}
-	fmt.Println(len(skinsList))
 	return skinsList, nil
 }
 
