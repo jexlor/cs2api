@@ -1,13 +1,17 @@
 package api
 
 import (
+	"database/sql"
+	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
 
-	"github.com/gin-gonic/gin"
 	"github.com/jexlor/cs2api/db"
+
+	"github.com/gin-gonic/gin"
 )
 
 type Handler struct {
@@ -91,6 +95,29 @@ func (h *Handler) GetCollections(c *gin.Context) {
 	collections, err := GetCollectionsJson(h.db)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Couldn't find collections!"})
+		return
 	}
 	c.JSON(http.StatusOK, collections)
+}
+
+func (h *Handler) DropSkin(c *gin.Context) {
+	collection := strings.TrimSpace(c.DefaultQuery("collection", ""))
+	if collection == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Collection is required"})
+		return
+	}
+
+	drop, err := DropSkinJson(h.db, collection)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			c.JSON(http.StatusNotFound, gin.H{"error": "No skins found in this collection"})
+		} else {
+			// Log the actual error to console for debug
+			fmt.Printf("DropSkinJson error: %v\n", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Couldn't drop skin!"})
+		}
+		return
+	}
+
+	c.JSON(http.StatusOK, drop)
 }

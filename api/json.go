@@ -1,7 +1,15 @@
 package api
 
 import (
+	"database/sql"
+	"fmt"
+
 	"log"
+	"math"
+	"math/rand"
+	"strconv"
+	"strings"
+	"time"
 
 	"github.com/jexlor/cs2api/db"
 )
@@ -104,4 +112,81 @@ func GetCollectionsJson(database *db.Database) ([]Col, error) {
 		collections = append(collections, c)
 	}
 	return collections, nil
+}
+
+func DropSkinJson(database *db.Database, collection string) (Skin, error) {
+	// 1) Fetch all skins from the specified collection
+	rows, err := database.DB.Query(`
+        SELECT id, name, weapon, rarity, collection, price, stattrack_price, url
+        FROM skins
+        WHERE collection = $1
+    `, collection)
+	if err != nil {
+		return Skin{}, err
+	}
+	defer rows.Close()
+
+	// 2) Store skins and compute drop weights based on inverse price
+	type entry struct {
+		skin   Skin
+		weight float64
+	}
+	var items []entry
+	const alpha = 0.7 // Steepness of inverse price impact (1.0 = linear)
+
+	for rows.Next() {
+		var s Skin
+		if err := rows.Scan(
+			&s.Id,
+			&s.Name,
+			&s.Weapon,
+			&s.Rarity,
+			&s.Collection,
+			&s.Price,
+			&s.StattrackPrice,
+			&s.Url,
+		); err != nil {
+			return Skin{}, err
+		}
+
+		// Handle price range strings like "$18.54-$119.63"
+		priceStr := strings.TrimPrefix(s.Price, "$")
+		if strings.Contains(priceStr, "-") {
+			priceStr = strings.Split(priceStr, "-")[0] // take the lower bound
+		}
+		priceStr = strings.TrimSpace(priceStr)
+		price, err := strconv.ParseFloat(priceStr, 64)
+		if err != nil || price <= 0 {
+			return Skin{}, fmt.Errorf("invalid skin price: %s", s.Price)
+		}
+
+		w := math.Pow(1.0/price, alpha)
+		items = append(items, entry{skin: s, weight: w})
+	}
+
+	if len(items) == 0 {
+		return Skin{}, sql.ErrNoRows
+	}
+
+	// 3) Total weight for normalization
+	var totalWeight float64
+	for _, item := range items {
+		totalWeight += item.weight
+	}
+
+	// 4) Pick random number in [0, totalWeight)
+	rand.Seed(time.Now().UnixNano())
+	target := rand.Float64() * totalWeight
+
+	// 5) Find the item matching that cumulative weight
+	var cumulative float64
+	for _, item := range items {
+		cumulative += item.weight
+		if target <= cumulative {
+			return item.skin, nil
+		}
+	}
+
+	// Fallback return (in case of rounding issues)
+	return items[len(items)-1].skin, nil
 }

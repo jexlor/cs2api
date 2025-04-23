@@ -64,6 +64,7 @@ func setupRouter(handler *api.Handler, devhandler *dev.Handler) *gin.Engine {
 		apiGroup.GET("/skins/search/n", handler.GetSkinByName)
 		apiGroup.GET("/collections", handler.GetCollections)
 		apiGroup.GET("/collections/search/n", handler.GetCollectionByName)
+		apiGroup.GET("/skins/drop/n", handler.DropSkin)
 		apiGroup.POST("/skins", devhandler.AddSkins)
 		apiGroup.DELETE("/skins/delete", devhandler.DeleteSkinByName)
 		apiGroup.PUT("/skins/edit", devhandler.UpdateSkinByName)
