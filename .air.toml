@@ -1,0 +1,10 @@
+[build]
+bin = "myapp"
+cmd = "go test ./... && go build -buildvcs=false -o ./myapp ./main.go"
+
+[run]
+cmd = "./myapp"
+
+[watch]
+include = ["./", "./cmd", "./internal"]
+exclude = [".git", ".idea", ".vscode", "*.md", "*.yml", ".air.toml"]

@@ -10,4 +10,4 @@ RUN go mod download
 
 COPY . .
 
-CMD ["air"]
+CMD ["air", "-c", ".air.toml"]
