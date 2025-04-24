@@ -34,7 +34,7 @@ Structure of skins
 Getting started with Cs2api.
 ----------------------------
 ```bash
-git clone https://github.com/jexlor/cs2api.git
+git clone https://github.com/cs2api/cs2api.git
 ```
 
 First step (copy .env file in repo root)
