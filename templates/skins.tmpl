@@ -1,0 +1,35 @@
+{{ define "skins.tmpl" }}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Skins</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        a { color: blue; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <table>
+        <tbody>
+            {{ range .Skins }}
+            <tr>
+                <td>{{ .Id }}</td>
+                <td>{{ .Name }}</td>
+                <td>{{ .Weapon }}</td>
+                <td>{{ .Rarity }}</td>
+                <td>{{ .Collection }}</td>
+                <td>{{ .Price }}</td>
+                <td>{{ .StattrackPrice }}</td>
+                <td>{{ .Url }}</td>
+            </tr>
+            {{ else }}
+            <tr><td colspan="8">No skins found.</td></tr>
+            {{ end }}
+        </tbody>
+    </table>
+</body>
+</html>
+{{ end }}
