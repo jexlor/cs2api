@@ -149,19 +149,21 @@ func DropSkinJson(database *db.Database, collection string) (Skin, error) {
 			return Skin{}, err
 		}
 
-		// Handle price range strings like "$18.54-$119.63"
+		// Handle price range strings like "$1,205.87-$2,789.00"
 		priceStr := strings.TrimPrefix(s.Price, "$")
 		if strings.Contains(priceStr, "-") {
 			priceStr = strings.Split(priceStr, "-")[0] // take the lower bound
 		}
+		priceStr = strings.ReplaceAll(priceStr, ",", "") // remove commas
 		priceStr = strings.TrimSpace(priceStr)
+
 		price, err := strconv.ParseFloat(priceStr, 64)
 		if err != nil || price <= 0 {
 			return Skin{}, fmt.Errorf("invalid skin price: %s", s.Price)
 		}
 
-		w := math.Pow(1.0/price, alpha)
-		items = append(items, entry{skin: s, weight: w})
+		weight := math.Pow(1.0/price, alpha)
+		items = append(items, entry{skin: s, weight: weight})
 	}
 
 	if len(items) == 0 {

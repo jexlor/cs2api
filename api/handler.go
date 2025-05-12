@@ -121,3 +121,40 @@ func (h *Handler) DropSkin(c *gin.Context) {
 
 	c.JSON(http.StatusOK, drop)
 }
+
+// handling html reqs
+func (h *Handler) GetAllSkinsHTML(c *gin.Context) {
+	skins, err := GetAllSkinsJson(h.db)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "Failed to load skins")
+		return
+	}
+	c.HTML(http.StatusOK, "skins.tmpl", gin.H{
+		"Skins": skins,
+	})
+}
+func (h *Handler) DropSkinHTML(c *gin.Context) {
+	collection := strings.TrimSpace(c.DefaultQuery("collection", ""))
+	if collection == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Collection is required"})
+		return
+	}
+
+	drop, err := DropSkinJson(h.db, collection)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			c.HTML(http.StatusNotFound, "error.tmpl", gin.H{
+				"message": "No skins found in this collection",
+			})
+		} else {
+			c.HTML(http.StatusInternalServerError, "error.tmpl", gin.H{
+				"message": "Couldn't drop skin!",
+			})
+		}
+		return
+	}
+
+	c.HTML(http.StatusOK, "success.tmpl", gin.H{
+		"drop": drop,
+	})
+}

@@ -47,7 +47,7 @@ func setupRouter(handler *api.Handler, devhandler *dev.Handler) *gin.Engine {
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"}, // custom
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Content-Type", "Authorization", "hx-trigger"},
+		AllowHeaders:     []string{"*"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
@@ -60,11 +60,13 @@ func setupRouter(handler *api.Handler, devhandler *dev.Handler) *gin.Engine {
 	{
 		apiGroup.GET("/", api.LandingPage)
 		apiGroup.GET("/skins", handler.GetAllSkins)
+		apiGroup.GET("/skins/html", handler.GetAllSkinsHTML)
 		apiGroup.GET("/skins/search", handler.GetSkinById)
 		apiGroup.GET("/skins/search/n", handler.GetSkinByName)
 		apiGroup.GET("/collections", handler.GetCollections)
 		apiGroup.GET("/collections/search/n", handler.GetCollectionByName)
 		apiGroup.GET("/skins/drop/n", handler.DropSkin)
+		apiGroup.GET("/skins/html/drop/n", handler.DropSkinHTML)
 		apiGroup.POST("/skins", devhandler.AddSkins)
 		apiGroup.DELETE("/skins/delete", devhandler.DeleteSkinByName)
 		apiGroup.PUT("/skins/edit", devhandler.UpdateSkinByName)
