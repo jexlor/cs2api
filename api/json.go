@@ -115,7 +115,6 @@ func GetCollectionsJson(database *db.Database) ([]Col, error) {
 }
 
 func DropSkinJson(database *db.Database, collection string) (Skin, error) {
-	// 1) Fetch all skins from the specified collection
 	rows, err := database.DB.Query(`
         SELECT id, name, weapon, rarity, collection, price, stattrack_price, url
         FROM skins
@@ -126,13 +125,12 @@ func DropSkinJson(database *db.Database, collection string) (Skin, error) {
 	}
 	defer rows.Close()
 
-	// 2) Store skins and compute drop weights based on inverse price
 	type entry struct {
 		skin   Skin
 		weight float64
 	}
 	var items []entry
-	const alpha = 0.7 // Steepness of inverse price impact (1.0 = linear)
+	const alpha = 0.7 // chances (lower = more common, higher = rarer) after tests found out that 0.7 is the point of break.
 
 	for rows.Next() {
 		var s Skin
@@ -149,7 +147,6 @@ func DropSkinJson(database *db.Database, collection string) (Skin, error) {
 			return Skin{}, err
 		}
 
-		// Handle price range strings like "$1,205.87-$2,789.00"
 		priceStr := strings.TrimPrefix(s.Price, "$")
 		if strings.Contains(priceStr, "-") {
 			priceStr = strings.Split(priceStr, "-")[0] // take the lower bound
@@ -170,17 +167,14 @@ func DropSkinJson(database *db.Database, collection string) (Skin, error) {
 		return Skin{}, sql.ErrNoRows
 	}
 
-	// 3) Total weight for normalization
 	var totalWeight float64
 	for _, item := range items {
 		totalWeight += item.weight
 	}
 
-	// 4) Pick random number in [0, totalWeight)
 	rand.Seed(time.Now().UnixNano())
 	target := rand.Float64() * totalWeight
 
-	// 5) Find the item matching that cumulative weight
 	var cumulative float64
 	for _, item := range items {
 		cumulative += item.weight
@@ -189,6 +183,5 @@ func DropSkinJson(database *db.Database, collection string) (Skin, error) {
 		}
 	}
 
-	// Fallback return (in case of rounding issues)
 	return items[len(items)-1].skin, nil
 }
