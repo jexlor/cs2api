@@ -3,14 +3,15 @@ package main
 import (
 	"log"
 	"os"
+	"strconv"
 	"time"
-
-	"github.com/jexlor/cs2api/dev"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/jexlor/cs2api/api"
 	"github.com/jexlor/cs2api/db"
+	"github.com/jexlor/cs2api/dev"
+	"github.com/jexlor/cs2api/middlewares"
 	"github.com/joho/godotenv"
 )
 
@@ -44,6 +45,19 @@ func main() {
 func setupRouter(handler *api.Handler, devhandler *dev.Handler) *gin.Engine {
 	router := gin.Default()
 
+	rateLimitEnabled := os.Getenv("RATE_LIMIT_ENABLED") == "true"
+	rateLimitRequests, err := strconv.Atoi(os.Getenv("RATE_LIMIT_REQUESTS"))
+	if err != nil {
+		rateLimitRequests = 50 // default value
+	}
+	rateLimitSeconds, err := strconv.Atoi(os.Getenv("RATE_LIMIT_SECONDS"))
+	if err != nil {
+		rateLimitSeconds = 60 // default value
+	}
+
+	rateLimiter := middlewares.NewRateLimiter(rateLimitEnabled, rateLimitRequests, rateLimitSeconds)
+
+	router.Use(rateLimiter.Middleware())
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"}, // custom
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
