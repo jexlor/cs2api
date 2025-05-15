@@ -8,7 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// RateLimiter tracks requests per IP
 type RateLimiter struct {
 	enabled bool
 	limit   int
@@ -17,7 +16,6 @@ type RateLimiter struct {
 	mu      sync.Mutex
 }
 
-// NewRateLimiter configures the rate limiter
 func NewRateLimiter(enabled bool, limit int, windowSeconds int) *RateLimiter {
 	return &RateLimiter{
 		enabled: enabled,
@@ -27,7 +25,6 @@ func NewRateLimiter(enabled bool, limit int, windowSeconds int) *RateLimiter {
 	}
 }
 
-// Middleware returns the middleware
 func (r *RateLimiter) Middleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if !r.enabled {

@@ -48,7 +48,7 @@ func setupRouter(handler *api.Handler, devhandler *dev.Handler) *gin.Engine {
 	rateLimitEnabled := os.Getenv("RATE_LIMIT_ENABLED") == "true"
 	rateLimitRequests, err := strconv.Atoi(os.Getenv("RATE_LIMIT_REQUESTS"))
 	if err != nil {
-		rateLimitRequests = 50 // default value
+		rateLimitRequests = 10 // default value
 	}
 	rateLimitSeconds, err := strconv.Atoi(os.Getenv("RATE_LIMIT_SECONDS"))
 	if err != nil {
@@ -58,6 +58,8 @@ func setupRouter(handler *api.Handler, devhandler *dev.Handler) *gin.Engine {
 	rateLimiter := middlewares.NewRateLimiter(rateLimitEnabled, rateLimitRequests, rateLimitSeconds)
 
 	router.Use(rateLimiter.Middleware())
+
+	// CORS Should be configured for production!
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"}, // custom
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
