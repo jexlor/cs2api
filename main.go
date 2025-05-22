@@ -48,7 +48,7 @@ func setupRouter(handler *api.Handler, devhandler *dev.Handler) *gin.Engine {
 	rateLimitEnabled := os.Getenv("RATE_LIMIT_ENABLED") == "true"
 	rateLimitRequests, err := strconv.Atoi(os.Getenv("RATE_LIMIT_REQUESTS"))
 	if err != nil {
-		rateLimitRequests = 10 // default value
+		rateLimitRequests = 50 // default value
 	}
 	rateLimitSeconds, err := strconv.Atoi(os.Getenv("RATE_LIMIT_SECONDS"))
 	if err != nil {
