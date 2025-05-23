@@ -83,6 +83,9 @@ func setupRouter(handler *api.Handler, devhandler *dev.Handler) *gin.Engine {
 		apiGroup.GET("/collections/search/n", handler.GetCollectionByName)
 		apiGroup.GET("/skins/drop/n", handler.DropSkin)
 		apiGroup.GET("/skins/html/drop/n", handler.DropSkinHTML)
+	}
+
+	if os.Getenv("DEV_TOOLS_ENABLED") == "true" {
 		apiGroup.POST("/skins", devhandler.AddSkins)
 		apiGroup.DELETE("/skins/delete", devhandler.DeleteSkinByName)
 		apiGroup.PUT("/skins/edit", devhandler.UpdateSkinByName)
@@ -91,8 +94,6 @@ func setupRouter(handler *api.Handler, devhandler *dev.Handler) *gin.Engine {
 
 	//todo gracefully shutdown
 	//jwt middleware
-	//rate limiting
 	//proper logging
-	//disable/enable dev tools form .env
 	return router
 }
