@@ -49,6 +49,6 @@ docker compose up --build
 ```
 Access Api welcome page (on default cs2api endpoint):
 ---------------------------
-![cs2api](https://github.com/user-attachments/assets/054f00f3-aa2f-4b69-a2fe-dc15fdcc0c68)
+![cs2api](https://github.com/user-attachments/assets/89cbb666-53ca-4e43-bb6a-b75e2adace7f)
 
 
