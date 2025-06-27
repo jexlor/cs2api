@@ -25,8 +25,28 @@ func NewHandler(db *db.Database) *Handler {
 func LandingPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", nil)
 }
+
+// TODO: pagination abuse fix
 func (h *Handler) GetAllSkins(c *gin.Context) {
-	skins, err := GetAllSkinsJson(h.db)
+	limitParam := c.Query("limit")
+	offsetParam := c.Query("offset")
+
+	if limitParam == "" || offsetParam == "" {
+		// Redirect to default pagination URL
+		c.Redirect(http.StatusFound, "/cs2api/skins?limit=20&offset=0")
+		return
+	}
+
+	limit, err := strconv.Atoi(limitParam)
+	if err != nil || limit <= 0 {
+		limit = 20
+	}
+	offset, err := strconv.Atoi(offsetParam)
+	if err != nil || offset < 0 {
+		offset = 0
+	}
+
+	skins, err := GetAllSkinsJson(h.db, limit, offset)
 	if err != nil {
 		log.Printf("Error fetching skins: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Couldn't serve skins!"})
@@ -124,7 +144,19 @@ func (h *Handler) DropSkin(c *gin.Context) {
 
 // handling html reqs
 func (h *Handler) GetAllSkinsHTML(c *gin.Context) {
-	skins, err := GetAllSkinsJson(h.db)
+	limitParam := c.DefaultQuery("limit", "20")
+	offsetParam := c.DefaultQuery("offset", "0")
+
+	limit, err := strconv.Atoi(limitParam)
+	if err != nil || limit <= 0 {
+		limit = 20
+	}
+	offset, err := strconv.Atoi(offsetParam)
+	if err != nil || offset < 0 {
+		offset = 0
+	}
+
+	skins, err := GetAllSkinsJson(h.db, limit, offset)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "Failed to load skins")
 		return

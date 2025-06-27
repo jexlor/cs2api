@@ -14,21 +14,21 @@ import (
 	"github.com/jexlor/cs2api/db"
 )
 
-func GetAllSkinsJson(database *db.Database) ([]Skin, error) {
-	rows, err := database.DB.Query("SELECT * FROM skins")
+func GetAllSkinsJson(database *db.Database, limit int, offset int) ([]Skin, error) {
+	query := `SELECT * FROM skins ORDER BY id LIMIT $1 OFFSET $2`
+
+	rows, err := database.DB.Query(query, limit, offset)
 	if err != nil {
-		log.Printf("Error executing query: %v", err) //remove raw database error messages for production
+		log.Printf("Error executing query: %v", err)
 		return nil, err
 	}
-
 	defer rows.Close()
 
 	var skinsList []Skin
-
 	for rows.Next() {
 		var s Skin
 		if err := rows.Scan(&s.Id, &s.Name, &s.Weapon, &s.Rarity, &s.Collection, &s.Price, &s.StattrackPrice, &s.Url); err != nil {
-			log.Printf("Error scanning row: %v", err) //remove raw database error messages for production
+			log.Printf("Error scanning row: %v", err)
 			return nil, err
 		}
 		skinsList = append(skinsList, s)
