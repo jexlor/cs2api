@@ -26,7 +26,6 @@ func LandingPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", nil)
 }
 
-// TODO: pagination abuse fix
 func (h *Handler) GetAllSkins(c *gin.Context) {
 	limitParam := c.Query("limit")
 	offsetParam := c.Query("offset")
@@ -38,8 +37,10 @@ func (h *Handler) GetAllSkins(c *gin.Context) {
 	}
 
 	limit, err := strconv.Atoi(limitParam)
-	if err != nil || limit <= 0 {
+	if err != nil || limit <= 0 || limit > 20 {
 		limit = 20
+		c.Redirect(http.StatusFound, "/cs2api/skins?limit=20&offset=0")
+		return
 	}
 	offset, err := strconv.Atoi(offsetParam)
 	if err != nil || offset < 0 {
