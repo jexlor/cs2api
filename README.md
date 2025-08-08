@@ -5,7 +5,7 @@
 What's Cs2Api?
 ---------------------------
 <strong>cs2api</strong> repo contains database filled with all the information about skins from cs2 (game). all that is accessible with 
-Api which is written with <strong>Go + Gin</strong> framework. for DB Api has <strong>PostgreSql</strong>. Api can work for any type of project which needs db + api to serve info about thousands of skins.
+Api which is written with <strong>Go + Gin</strong> framework. for DB Api has <strong>PostgreSql</strong>. Api can work for any type of project which needs db + api to serve info about thousands of skins. Compatible with any frontend framework and SSR apps (api can serve html along with json but it's still raw and under dev)
 
 Where Cs2Api gets information about skins?
 -----------------------------------------------
